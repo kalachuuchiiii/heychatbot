@@ -1,0 +1,1 @@
+Hello, this project is made for me to understand how to use groq's API service, aswell as how to implement ai in an application, nothing elseee
