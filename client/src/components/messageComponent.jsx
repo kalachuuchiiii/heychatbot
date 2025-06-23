@@ -1,25 +1,18 @@
-import { useState, memo } from 'react';
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { fade } from '../data/variants/index.js';
 import { MdRestartAlt } from "react-icons/md";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight'
-import "highlight.js/styles/atom-one-dark.css";
+import Markdown from './markdown.jsx';
+import useClipboard from '../hooks/useClipboard.js';
 
 const Message = ({message = null}) => {
-const [isCopied, setIsCopied] = useState(false);
+  
+  const { isCopied, copyText } = useClipboard();
+
 
 const { role = "user", content = "" } = message
  
-const roleTitle = role === "user" ? "You" : "Assistant"
-const handleCopy = () => {
-  setIsCopied(true);
-  navigator.clipboard.writeText(content);
-  setInterval(() => {
-    setIsCopied(false);
-  }, 3000)
-}
+const roleTitle = role === "user" ? "You" : "Paris"
 
 return <motion.div
  variants = {fade} 
@@ -30,12 +23,12 @@ return <motion.div
   <div className = "p-2 w-full bg-zinc-700/60 rounded-lg flex flex-col gap-1">
   <p className = " text-sm">{roleTitle}</p>
   <div className = { role === "user" && "break-all"}>
-      <ReactMarkdown remarkPlugins = {[remarkGfm]} rehypePlugins = {[rehypeHighlight]} >
-    {content}
-  </ReactMarkdown>
+    <Markdown>
+      {content}
+    </Markdown>
   </div>
 
-      <button disabled = {isCopied} onClick = {handleCopy} className = " text-xs text-right w-full text-white/50 ">{isCopied ? "Copied!" : "Copy"}</button>
+      <button disabled = {isCopied} onClick = {() => copyText(content)} className = " text-xs text-right w-full text-white/50 ">{isCopied ? "Copied!" : "Copy"}</button>
 </div>
 </motion.div>
 }
