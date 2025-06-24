@@ -6,10 +6,11 @@ import Navbar from './components/navbar.jsx'
 import LoadingDisplay from './components/loadingDisplay.jsx';
 import ErrorDisplay from './components/errorDisplay.jsx';
 import useChatHandler from './hooks/useChatHandler.js';
+import useAutoLocalSave from './hooks/useAutoLocalSave.js';
 
 function App() {
   const { setContent, loading, error, messages, sendReq, content } = useChatHandler();
-  
+  useAutoLocalSave({ messages, content })
 
   return <div className="fixed inset-0 justify-between items-center w-full  flex-col flex ">
     <Navbar />
@@ -17,9 +18,9 @@ function App() {
       {
         messages?.length > 0 ?       <MessagesFeed messages={messages}  /> : <Greet />
       }
-            <p className = "text-xs w-full text-left px-4"> {
+            <div className = "text-xs w-full text-left px-4"> {
         error ? <ErrorDisplay/> : loading && <LoadingDisplay/>
-      }</p>
+      }</div>
       </div>
 
         <ContentForm 

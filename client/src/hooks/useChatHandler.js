@@ -2,19 +2,11 @@ import { useEffect, useState, useCallback } from 'react';
 import axios from "axios";
 
 const useChatHandler = () => {
-  
+  const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("messages")) || []);
   const [content, setContent] = useState(localStorage.getItem("content") || "");
-  const [messages, setMessages] = useState(JSON.parse(localStorage.getItem("messages")) || [])
+  
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem("messages", JSON.stringify(messages))
-  }, [messages])
-
-  useEffect(() => {
-    localStorage.setItem("content", content);
-  }, [content])
 
   const sendReq = useCallback(async(content) => {
     setError(false);
